@@ -8,6 +8,8 @@ import GStore from '@/store'
 import CommentList from '@/views/patient/CommentList'
 import NetWorkError from '../views/NetworkError.vue';
 import NotFound from '../views/NotFound.vue';
+import Login from '@/views/LoginForm.vue'
+import Register from '@/views/Register.vue'
 
 const routes = [
   {
@@ -65,6 +67,16 @@ const routes = [
     path: '/network-error',
     name: 'NetworkError',
     component: NetWorkError
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
   }
 ]
 

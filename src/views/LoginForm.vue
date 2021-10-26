@@ -40,6 +40,7 @@
 </template>
 
 <script>
+
 import { Form, Field, ErrorMessage } from 'vee-validate'
 import AuthService from '@/services/AuthService.js'
 import * as yup from 'yup'
@@ -67,7 +68,7 @@ export default {
       AuthService.login(user)
         .then((response) => {
           console.log(response)
-          this.$router.push({ name: 'EventList' })
+          this.$router.push({ name: 'Home' })
         })
         .catch(() => {
           this.message = 'could not login'

@@ -1,0 +1,262 @@
+{
+    "info": {
+        "_postman_id": "c67ebfed-69b2-4987-a104-2b313389d33b",
+        "name": "CompoProject",
+        "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "User",
+            "item": [
+                {
+                    "name": "SignIn",
+                    "id": "18d7ecf9-401d-4adc-b51b-9f02de4b498a",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\":\"test1234\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "http://localhost:8080/auth/signin"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GetUser",
+                    "id": "185ff932-9da7-4e90-b6ba-94913f3c4ee4",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "access_token",
+                                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIkFETUlOIl0sImV4cCI6MTYzNTI0NTg0M30.A50SLg1S70CRMHyT0xWyr5Dcuk8o33sa7PTU2DHeWAY",
+                                "type": "text"
+                            },
+                            {
+                                "key": "refresh_token",
+                                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzNTI0NzA0M30.hml8zZtXWMgfuIpe6G1i6ABgYC4vm3NNzcVOGnQYqqc",
+                                "type": "text"
+                            }
+                        ],
+                        "url": "http://localhost:8080/info"
+                    },
+                    "response": []
+                }
+            ],
+            "id": "473938f9-e60c-4724-80ee-9db509f5e817"
+        },
+        {
+            "name": "Admin",
+            "item": [
+                {
+                    "name": "AllPatient",
+                    "id": "e014b25f-bcd3-4af6-b0a8-8f8679fe1822",
+                    "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                    },
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "access_token",
+                                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIkFETUlOIl0sImV4cCI6MTYzNTI0NDk2Nn0.P3_eRyWw5iQR-KzxL6Ty8FNjkZIlGyhcUmol7Lc8gDo",
+                                "type": "text"
+                            },
+                            {
+                                "key": "refresh_token",
+                                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzNTI0NjE2N30.bdaIerX1Q3xe8HeUuwOPkk5v5PLzHL4fs_GwOsuDpeo",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"patient_id\":1,\r\n    \"vaccine_id\":1\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "http://localhost:8080/admin/seeAllPatient"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "addVaccineToPatient",
+                    "id": "b9d51964-f1ef-41be-85c0-ca59d4de85d1",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "access_token",
+                                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIkFETUlOIl0sImV4cCI6MTYzNTI0MDA1OX0.Zvqk-6whzOFdu50OKvC3TXsd4EwUWab6Q-ZrY0LiA1A",
+                                "type": "text"
+                            },
+                            {
+                                "key": "refresh_token",
+                                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzNTI0MTI1OX0.S95aXttW1tPISpc6RwmQAWaHlZ7241v1ywAHGNCemvo",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"patient_id\":1,\r\n    \"vaccine_id\":1\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "http://localhost:8080/admin/addVaccineToPatient"
+                    },
+                    "response": []
+                },
+                {
+                    "name": "AllDoctor",
+                    "id": "e9245800-5273-4d12-b7f8-7b026d2a5539",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "access_token",
+                                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIkFETUlOIl0sImV4cCI6MTYzNTI1MzA3MH0.qGJE67YupR8GD2SmvTurHgJzmfjwCUtxMuggcR1rsyo",
+                                "type": "text"
+                            },
+                            {
+                                "key": "refresh_token",
+                                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzNTI1NDI3MH0.Nd8Nq2TQ4KkSnjbP7sIhGupPheumyaiEFpE4ytfkbUk",
+                                "type": "text"
+                            }
+                        ],
+                        "url": "http://localhost:8080/admin/seeAllDoctor"
+                    },
+                    "response": []
+                }
+            ],
+            "id": "758e8ae1-3008-406d-a790-9155286ea07e"
+        },
+        {
+            "name": "Doctor",
+            "item": [
+                {
+                    "name": "AddCommentToPatient",
+                    "id": "4ea67cb6-74ec-4383-b88b-84a59f575e8e",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "access_token",
+                                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb2N0b3IiLCJyb2xlcyI6WyJET0NUT1IiLCJQQVRJRU5UIl0sImV4cCI6MTYzNTI0Mzk0MH0.R3KTj30Yj1QsxMNrmsUY0OVCc2IphVWIh-t1rQv6s94",
+                                "type": "text"
+                            },
+                            {
+                                "key": "refresh_token",
+                                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkb2N0b3IiLCJleHAiOjE2MzUyNDUxNDB9.kYEOIeTUPogJWmh2zQgYIPrX6tyx0tHHK0Lp2_qk3e0",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\r\n    \"patient_id\":1,\r\n    \"comment\":\"hahahaha\"\r\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": "http://localhost:8080/doctor/addCommentToPatient"
+                    },
+                    "response": []
+                }
+            ],
+            "id": "02ea9391-4111-414b-a828-e149666c0c58"
+        },
+        {
+            "name": "Vaccine",
+            "item": [
+                {
+                    "name": "GetAllVaccine",
+                    "id": "987da29b-ab28-4285-a373-ea1f72129e1c",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "access_token",
+                                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIkFETUlOIl0sImV4cCI6MTYzNTI1MDM4MH0.SDLc-u7dIMx-DFv115bQy_jgIaVDJvLs4jIf5DB7mRQ",
+                                "type": "text"
+                            },
+                            {
+                                "key": "refresh_token",
+                                "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTYzNTI1MTU4MH0.Xhb2u70TXsbseU8UmSVjkATjaWN4PoPB3fQK3BJ2j9I",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "http://localhost:8080/info/vaccine?page=1&pageSize=4",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "info",
+                                "vaccine"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "pageSize",
+                                    "value": "4"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "id": "fa6eb45a-daf0-4232-bf75-1576e2062b10"
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "id": "0bb6fb64-19bd-49d9-807b-a7687b90a21f",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "id": "95a77e73-7a2d-4892-99bd-c0558407f6f3",
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "variable": [
+        {
+            "id": "7e55b184-c495-4ed4-b3f6-b9ae26dbbb60",
+            "key": "url",
+            "value": "http://localhost:8080"
+        },
+        {
+            "id": "7575303b-5c0e-413e-a2f5-318de8c6c0e8",
+            "value": ""
+        }
+    ]
+}
