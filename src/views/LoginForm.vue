@@ -1,6 +1,6 @@
 <template>
   <div class="col-md-12 main align-middle">
-  {{GStore.flashMessage}}
+    {{ GStore.flashMessage }}
     <div class="card card-container mt-auto">
       <img
         id="profile-img"
@@ -40,42 +40,41 @@
 </template>
 
 <script>
-
-import { Form, Field, ErrorMessage } from 'vee-validate'
-import AuthService from '@/services/AuthService.js'
-import * as yup from 'yup'
+import { Form, Field, ErrorMessage } from "vee-validate";
+import AuthService from "@/services/AuthService.js";
+import * as yup from "yup";
 export default {
-  name: 'Login',
-  inject: ['GStore'],
+  name: "Login",
+  inject: ["GStore"],
   components: {
     Form,
     Field,
-    ErrorMessage
+    ErrorMessage,
   },
   data() {
     const schema = yup.object().shape({
-      username: yup.string().required('Username is required!'),
-      password: yup.string().required('Password is required!')
-    })
+      username: yup.string().required("Username is required!"),
+      password: yup.string().required("Password is required!"),
+    });
     return {
       loading: false,
-      message: '',
-      schema
-    }
+      message: "",
+      schema,
+    };
   },
   methods: {
     handleLogin(user) {
       AuthService.login(user)
         .then((response) => {
-          console.log(response)
-          this.$router.push({ name: 'Home' })
+          console.log(response);
+          this.$router.push({ name: "Home" });
         })
         .catch(() => {
-          this.message = 'could not login'
-        })
-    }
-  }
-}
+          this.message = "could not login";
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -98,7 +97,6 @@ label {
   -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  
 }
 .profile-img-card {
   width: 96px;
@@ -112,20 +110,20 @@ label {
 .error-feedback {
   color: red;
 }
-.btn{
+.btn {
   background-color: salmon;
   border: 0;
 }
-.btn:hover{
+.btn:hover {
   background-color: orangered;
   border: 0;
 }
-.backdrop{
+.backdrop {
   background-image: url("../assets/covid19jumbotron2.jpg");
   background-size: cover;
   background-position: center;
 }
-.main{
+.main {
   min-height: 100vh;
 }
 </style>

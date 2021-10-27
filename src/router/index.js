@@ -1,104 +1,105 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import NProgress from 'nprogress'
-import Layout from '@/views/patient/Layout.vue'
-import Info from '@/views/patient/Info.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import Home from "../views/Home.vue";
+import NProgress from "nprogress";
+import Layout from "@/views/patient/Layout.vue";
+import Info from "@/views/patient/Info.vue";
 import api from "@/services";
-import GStore from '@/store'
-import CommentList from '@/views/patient/CommentList'
-import NetWorkError from '../views/NetworkError.vue';
-import NotFound from '../views/NotFound.vue';
-import Login from '@/views/LoginForm.vue'
-import Register from '@/views/Register.vue'
+import GStore from "@/store";
+import CommentList from "@/views/patient/CommentList";
+import NetWorkError from "../views/NetworkError.vue";
+import NotFound from "../views/NotFound.vue";
+import Login from "@/views/LoginForm.vue";
+import Register from "@/views/Register.vue";
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home,
-    props: (route) => ({ page: parseInt(route.query.page) || 1 })
-  },
-  {
-    path: '/user/:id',
-    name: 'Layout',
-    props: true,
-    component: Layout,
-    beforeEnter: (to) => {
-      return api.getUser(to.params.id)
-        .then((response) => {
-          GStore.user = response.data
-        })
-        .catch((error) => {
-          if (error.response && error.response.status == 404) {
-            return {
-              // <--- Return
-              name: '404Resource',
-              params: { resource: 'Patient Info page' }
-            }
-          } else {
-            return { name: 'NetworkError' } // <--- Return
-          }
-        })
+    {
+        path: "/",
+        name: "Home",
+        component: Home,
+        props: (route) => ({ page: parseInt(route.query.page) || 1 }),
     },
-    children: [
-      {
-        path: '',
-        name: 'Info',
-        component: Info
-      },
-      {
-        path: '',
-        name: 'CommentList',
+    {
+        path: "/user/:id",
+        name: "Layout",
         props: true,
-        component: CommentList
-      },
-    ]
-  },
-  {
-    path: '/404/:resource',
-    name: '404Resource',
-    component: NotFound,
-    props: true
-  },
-  {
-    path: '/:catchAll(.*)',
-    name: 'NotFound',
-    component: NotFound
-  },
-  {
-    path: '/network-error',
-    name: 'NetworkError',
-    component: NetWorkError
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
-  }
-]
+        component: Layout,
+        beforeEnter: (to) => {
+            return api
+                .getUser(to.params.id)
+                .then((response) => {
+                    GStore.user = response.data;
+                })
+                .catch((error) => {
+                    if (error.response && error.response.status == 404) {
+                        return {
+                            // <--- Return
+                            name: "404Resource",
+                            params: { resource: "Patient Info page" },
+                        };
+                    } else {
+                        return { name: "NetworkError" }; // <--- Return
+                    }
+                });
+        },
+        children: [
+            {
+                path: "",
+                name: "Info",
+                component: Info,
+            },
+            {
+                path: "",
+                name: "CommentList",
+                props: true,
+                component: CommentList,
+            },
+        ],
+    },
+    {
+        path: "/404/:resource",
+        name: "404Resource",
+        component: NotFound,
+        props: true,
+    },
+    {
+        path: "/:catchAll(.*)",
+        name: "NotFound",
+        component: NotFound,
+    },
+    {
+        path: "/network-error",
+        name: "NetworkError",
+        component: NetWorkError,
+    },
+    {
+        path: "/login",
+        name: "Login",
+        component: Login,
+    },
+    {
+        path: "/register",
+        name: "Register",
+        component: Register,
+    },
+];
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
-  routes,
-  scrollBehavior(to, from, savedPosition) {
-    if (savedPosition) {
-      return savedPosition
-    } else {
-      return { top: 0 }
-    }
-  }
-})
+    history: createWebHistory(process.env.BASE_URL),
+    routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition;
+        } else {
+            return { top: 0 };
+        }
+    },
+});
 
 router.beforeEach(() => {
-  NProgress.start()
-})
+    NProgress.start();
+});
 router.afterEach(() => {
-  NProgress.done()
-})
+    NProgress.done();
+});
 
-export default router
+export default router;

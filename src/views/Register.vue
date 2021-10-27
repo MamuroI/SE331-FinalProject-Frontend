@@ -40,8 +40,8 @@
             <ErrorMessage name="age" class="error-feedback" />
           </div>
           <div class="form-group">
-              <label for="img">Image</label>
-              <UploadImages name="img" @changed="handleImages" />
+            <label for="img">Image</label>
+            <UploadImages name="img" @changed="handleImages" />
           </div>
           <div class="form-group">
             <button class="btn btn-primary btn-block mt-3" :disabled="loading">
@@ -54,10 +54,10 @@
           </div>
 
           <div class="form-group">
-          <div v-if="message" class="alert alert-danger" role="alert">
-            {{ message }}
+            <div v-if="message" class="alert alert-danger" role="alert">
+              {{ message }}
+            </div>
           </div>
-        </div>
         </div>
       </Form>
 
@@ -73,69 +73,64 @@
 </template>
 
 <script>
-
-import { Form, Field, ErrorMessage } from 'vee-validate'
-import * as yup from 'yup'
-import UploadImages from 'vue-upload-drop-images'
+import { Form, Field, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
+import UploadImages from "vue-upload-drop-images";
 // eslint-disable-next-line
-import AuthService from '@/services/AuthService.js'
+import AuthService from "@/services/AuthService.js";
 
 export default {
-  name: 'Register',
+  name: "Register",
   components: {
     Form,
     Field,
     ErrorMessage,
-    UploadImages
+    UploadImages,
   },
   // eslint-disable-next-line
-  inject: ['GStore'],
+  inject: ["GStore"],
   data() {
     const schema = yup.object().shape({
       username: yup
         .string()
-        .required('Username is required!')
-        .min(3, 'Must be at least 3 characters!')
-        .max(20, 'Must be maximum 20 characters!'),
+        .required("Username is required!")
+        .min(3, "Must be at least 3 characters!")
+        .max(20, "Must be maximum 20 characters!"),
       password: yup
         .string()
-        .required('Password is required!')
-        .min(6, 'Must be at least 6 characters!')
-        .max(40, 'Must be maximum 40 characters!'),
+        .required("Password is required!")
+        .min(6, "Must be at least 6 characters!")
+        .max(40, "Must be maximum 40 characters!"),
       firstname: yup
         .string()
-        .required('Firstname is required!')
-        .min(3, 'Must be at least 3 characters!')
-        .max(30, 'Must be maximum 30 characters!'),
+        .required("Firstname is required!")
+        .min(3, "Must be at least 3 characters!")
+        .max(30, "Must be maximum 30 characters!"),
       lastname: yup
         .string()
-        .required('Lastname is required!')
-        .min(3, 'Must be at least 3 characters!')
-        .max(30, 'Must be maximum 30 characters!'),
+        .required("Lastname is required!")
+        .min(3, "Must be at least 3 characters!")
+        .max(30, "Must be maximum 30 characters!"),
       address: yup
         .string()
-        .required('Address is required!')
-        .min(5, 'Must be at least 5 characters!')
-        .max(50, 'Must be maximum 50 characters!'),
-      age: yup
-        .number()
-        .required('Age is required')
-        .min(1)
-        .max(120),
-    })
+        .required("Address is required!")
+        .min(5, "Must be at least 5 characters!")
+        .max(50, "Must be maximum 50 characters!"),
+      age: yup.number().required("Age is required").min(1).max(120),
+    });
 
     return {
       successful: false,
       loading: false,
-      message: '',
+      message: "",
       schema,
-      files:[],
-      imageUrls:[]
-    }
+      files: [],
+      imageUrls: [],
+    };
   },
   mounted() {
     if (this.GStore.currentUser) {
-      this.$router.push('/event')
+      this.$router.push("/event");
     }
   },
   methods: {
@@ -146,33 +141,32 @@ export default {
       // this.loading = true
       Promise.all(
         this.files.map((file) => {
-          return AuthService.uploadFile(file)
+          return AuthService.uploadFile(file);
         })
       ).then((response) => {
-        this.imageUrls = response.map((r)=> r.data)
-        AuthService.register(user,this.imageUrls.toString())
-        .then((response) => {
-          this.GStore.flashMessage = 'You are successfully registered for ' + user.username
-          setTimeout(() => {
-          // After 3 seconds remove it
-            this.GStore.flashMessage = ''
-          }, 3000)
-          console.log(response)
-          
-          this.$router.push({ name: 'Login' })
-        })
-        .catch(() => {
-          this.message = 'could not register'
-        })
-      })
-     
-      
+        this.imageUrls = response.map((r) => r.data);
+        AuthService.register(user, this.imageUrls.toString())
+          .then((response) => {
+            this.GStore.flashMessage =
+              "You are successfully registered for " + user.username;
+            setTimeout(() => {
+              // After 3 seconds remove it
+              this.GStore.flashMessage = "";
+            }, 3000);
+            console.log(response);
+
+            this.$router.push({ name: "Login" });
+          })
+          .catch(() => {
+            this.message = "could not register";
+          });
+      });
     },
-     handleImages(files) {
-      this.files = files
-    }
-  }
-}
+    handleImages(files) {
+      this.files = files;
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -182,8 +176,8 @@ label {
 }
 
 .card-container.card {
-  max-width: 350px !important;
-  padding: 40px 40px;
+  max-width: 450px !important;
+  padding: 40px 20px 40px 20px;
 }
 
 .card {
@@ -212,15 +206,15 @@ label {
   color: red;
 }
 
-.btn{
+.btn {
   background-color: salmon;
   border: 0;
 }
-.btn:hover{
+.btn:hover {
   background-color: orangered;
   border: 0;
 }
-.backdrop{
+.backdrop {
   background-image: url("../assets/covid19jumbotron2.jpg");
   background-size: cover;
   background-position: center;

@@ -17,14 +17,13 @@
             class="
           py-2
           rounded
-          w-50
-          mx-2
           mt-3
           md:mt-0
           transition-all
           bg-red-200
           hover:bg-red-400
-          hover:shadow-md  text-gray-600 hover:text-white"
+          hover:shadow-md  text-gray-600 hover:text-white detailsBtn"
+          
           
           >
             More Details
@@ -89,5 +88,10 @@ export default {
 }
 #Moredetails {
   cursor: pointer;
+}
+.detailsBtn{
+  width: 200px;
+  height: 50px;
+  font-size: 25px;
 }
 </style>

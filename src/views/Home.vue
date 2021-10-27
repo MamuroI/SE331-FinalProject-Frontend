@@ -15,6 +15,7 @@
           md:grid-cols-2
           lg:grid-cols-3
           gap-4
+          
         "
       >
         <Card v-for="user in GStore.users" :key="user.id" :user="user" />
@@ -46,12 +47,12 @@ export default {
       AllModels: [],
     };
   },
-  created(){
-      api
+  created() {
+    api
       .getAllUsers()
       .then((response) => {
-          this.AllModels = response.data;
-        })
+        this.AllModels = response.data;
+      })
       .catch(() => {
         this.$router.push({ name: "Login" });
       });

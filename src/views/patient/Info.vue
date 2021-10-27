@@ -2,7 +2,6 @@
   <div class="container mx-auto mt-3">
     <div class="patientInfo mx-auto bg-red-200">
       <h1 id="header">User Info</h1>
-
       <div class="infolist mt-2 grid grid-cols-5">
         <div class="col-span-2">
           <h3 v-if="GStore.user.username" class="header">Username:</h3>
@@ -88,15 +87,19 @@
         </table>
       </div>
 
-      <h4>Add vaccine</h4>
+      <div class="addVaccineBg" :v-if="GStore.user.authorities[0].name == 'ROLE_ADMIN'">
+
+      
+      <h4 class="vaccineHeader">Add vaccine</h4>
       <form @submit.prevent="onSubmitVaccine">
         <BaseSelect
           :options="this.vaccinesList"
           v-model="vaccines_id"
           label="Select an vaccine"
         />
-        <button type="submit">Submit</button>
+        <button type="submit" class="submitbtn">Submit</button>
       </form>
+      </div>
 
       <CommentList
         v-if="comments.length > 0"
@@ -105,7 +108,7 @@
 
       <form class="comment-form grid" @submit.prevent="onSubmit">
         <div class="text-lg mt-8">
-          <h1 class="commentHeader mb-2">Add Comment:</h1>
+          <h1 class="commentHeader mb-2">Add Comment</h1>
         </div>
 
         <textarea id="comment-details" v-model="commentDetails"></textarea>
@@ -129,7 +132,7 @@
         </div>
       </form>
 
-      <div class="grid grid-cols-3 pt-4">
+      <div class="grid grid-cols-3 pt-4" :v-if="GStore.user.authorities[0].name == 'ROLE_ADMIN'">
         <div>
           <button
             v-on:click="giveAdminRole"
@@ -250,8 +253,9 @@ export default {
         });
     },
     giveAdminRole() {
-      api.giveRoleAdmin(this.GStore.user.id)
-      .then(() => {
+      api
+        .giveRoleAdmin(this.GStore.user.id)
+        .then(() => {
           this.GStore.flashMessage = "You are successfully give an admin role ";
           setTimeout(() => {
             this.GStore.flashMessage = "";
@@ -262,9 +266,11 @@ export default {
         });
     },
     giveDoctorRole() {
-      api.giveRoleDoctor(this.GStore.user.id)
-      .then(() => {
-          this.GStore.flashMessage = "You are successfully give an doctor role ";
+      api
+        .giveRoleDoctor(this.GStore.user.id)
+        .then(() => {
+          this.GStore.flashMessage =
+            "You are successfully give an doctor role ";
           setTimeout(() => {
             this.GStore.flashMessage = "";
           }, 3000);
@@ -274,9 +280,11 @@ export default {
         });
     },
     givePatientRole() {
-      api.giveRolePatient(this.GStore.user.id)
-      .then(() => {
-          this.GStore.flashMessage = "You are successfully give an patient role ";
+      api
+        .giveRolePatient(this.GStore.user.id)
+        .then(() => {
+          this.GStore.flashMessage =
+            "You are successfully give an patient role ";
           setTimeout(() => {
             this.GStore.flashMessage = "";
           }, 3000);
@@ -368,16 +376,48 @@ h3 {
 .infolist {
   text-align: left;
 }
-#comment-details {
-  height: 100px;
-}
+
 .commentHeader {
+  text-align: center;
   font-size: 20px;
-  font-weight: 400;
-  text-align: left;
+  font-weight: 600;
 }
+#comment-details{
+  background-color: lightcyan;
+  color: lightseagreen;
+  border-radius: 15px;
+  padding: 20px;
+  height: 150px;
+}
+
 .button {
   text-align: right;
   cursor: pointer;
+}
+.submitbtn{
+  cursor: pointer;
+  background-color: orangered;
+  color: white;
+width: 150px;
+height: 35px;
+border-radius: 10px;
+}
+.submitbtn:hover{
+  background-color: red;
+}
+.vaccineHeader{
+  font-size: 20px;
+  font-weight: 600;
+  
+}
+.addVaccineBg{
+  background-color: white;
+  opacity: 0.5;
+  height: 120px;
+  border-radius: 15px;
+  align-content: center;
+  justify-content: center;
+  padding-top: 20px;
+  margin-top: 15px;
 }
 </style>
