@@ -1,0 +1,6 @@
+version: "3.9"
+services:
+    web:
+        image: "pongpanoth/se331-securitylab"
+        ports: 
+            - 8001:80
