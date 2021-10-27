@@ -16,6 +16,7 @@ export default {
       .catch((error) => {
         return Promise.reject(error)
       })
+      
   },
   register(user,imglink) {
     return apiClient

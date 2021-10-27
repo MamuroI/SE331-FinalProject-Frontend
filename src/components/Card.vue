@@ -4,7 +4,7 @@
       <div class="grid md:col-span-2 md:pl-4 mt-2 md:mt-0">
         <div class="grid">
           <h2 class="grid justify-start patientdetails">
-            Username: {{ chooseToShow() }}
+            Username: {{ user.username }}
           </h2>
           <h2 v-if="user.authorities != null" class="grid justify-start patientdetails">
             Role: {{ user.authorities[0].name }}

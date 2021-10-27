@@ -2,8 +2,7 @@
   <div class="container mx-auto mt-3">
     <div class="patientInfo mx-auto bg-red-200">
       <h1 id="header">User Info</h1>
-      
-      
+
       <div class="infolist mt-2 grid grid-cols-5">
         <div class="col-span-2">
           <h3 v-if="GStore.user.username" class="header">Username:</h3>
@@ -27,14 +26,10 @@
           <h3 v-if="GStore.user.age" class="header">Age:</h3>
         </div>
         <div class="col-span-3">
-          <h3 class="subtext capitalize">
-            {{ GStore.user.age }} years old
-          </h3>
+          <h3 class="subtext capitalize">{{ GStore.user.age }} years old</h3>
         </div>
         <div class="col-span-2">
-          <h3 v-if="GStore.user.address" class="header">
-            Address:
-          </h3>
+          <h3 v-if="GStore.user.address" class="header">Address:</h3>
         </div>
         <div class="col-span-3">
           <h3 class="subtext capitalize">
@@ -43,7 +38,7 @@
         </div>
 
         <div class="col-span-2">
-          <h3 v-if="GStore.user.authorities.length>0" class="header">
+          <h3 v-if="GStore.user.authorities.length > 0" class="header">
             Role:
           </h3>
         </div>
@@ -62,7 +57,7 @@
       </div>
       <button
         @click="seen = !seen"
-        v-if="GStore.user.vaccines.length>0"
+        v-if="GStore.user.vaccines.length > 0"
         class="
           px-5
           py-2
@@ -71,16 +66,15 @@
           w-64
           transition-all
           bg-yellow-200
-          hover:bg-yellow-400
-          hover:shadow-md
+          hover:bg-yellow-400 hover:shadow-md
         "
       >
         <p class="text-md text-yellow-500 hover:text-white">Vaccine Details</p>
       </button>
-      <div v-if="GStore.user.vaccines.length>0" v-show="seen">
+      <div v-if="GStore.user.vaccines.length > 0" v-show="seen">
         <table class="justify-center">
           <tr class="">
-            <th class="col-span-2 ">No:</th>
+            <th class="col-span-2">No:</th>
             <th class="col-span-8 justify-center">Vaccine Brand</th>
           </tr>
           <tr
@@ -94,7 +88,20 @@
         </table>
       </div>
 
-      <CommentList v-if="comments.length>0" :comments="comments"></CommentList>
+      <h4>Add vaccine</h4>
+      <form @submit.prevent="onSubmitVaccine">
+        <BaseSelect
+          :options="this.vaccinesList"
+          v-model="vaccines_id"
+          label="Select an vaccine"
+        />
+        <button type="submit">Submit</button>
+      </form>
+
+      <CommentList
+        v-if="comments.length > 0"
+        :comments="comments"
+      ></CommentList>
 
       <form class="comment-form grid" @submit.prevent="onSubmit">
         <div class="text-lg mt-8">
@@ -110,19 +117,71 @@
               py-2
               mt-2
               rounded
-              w-24
+              w-40
               transition-all
               bg-green-200
               text-green-600
-              hover:bg-green-400
-              hover:text-white
-              hover:shadow-md
+              hover:bg-green-400 hover:text-white hover:shadow-md
             "
             type="submit"
             value="Submit"
           />
         </div>
       </form>
+
+      <div class="grid grid-cols-3 pt-4">
+        <div>
+          <button
+            v-on:click="giveAdminRole"
+            class="
+              px-5
+              py-2
+              my-2
+              rounded
+              w-30
+              transition-all
+              bg-gray-400
+              hover:bg-black hover:shadow-md hover:text-white
+            "
+          >
+            Give Admin Role
+          </button>
+        </div>
+        <div>
+          <button
+            v-on:click="giveDoctorRole"
+            class="
+              px-5
+              py-2
+              my-2
+              rounded
+              w-30
+              transition-all
+              bg-blue-200
+              hover:bg-blue-400 hover:shadow-md
+            "
+          >
+            Give Doctor Role
+          </button>
+        </div>
+        <div>
+          <button
+            v-on:click="givePatientRole"
+            class="
+              px-5
+              py-2
+              my-2
+              rounded
+              w-30
+              transition-all
+              bg-green-200
+              hover:bg-green-400 hover:shadow-md
+            "
+          >
+            Give Patient Role
+          </button>
+        </div>
+      </div>
       <div class="grid justify-start">
         <button
           @click="goBack"
@@ -134,8 +193,7 @@
             w-32
             transition-all
             bg-white
-            hover:bg-gray-200
-            hover:shadow-md
+            hover:bg-gray-200 hover:shadow-md
           "
         >
           Back
@@ -147,8 +205,13 @@
 
 <script>
 import CommentList from "./CommentList.vue";
+import doctorApi from "@/services/DoctorService.js";
+import vaccineApi from "@/services/VaccineService.js";
+import AuthService from "@/services/AuthService.js";
+import api from "@/services";
 export default {
-  inject:['GStore'],
+  inject: ["GStore"],
+
   methods: {
     goBack() {
       this.$router.push({ name: "Home" });
@@ -157,12 +220,70 @@ export default {
       this.comments.push(comment);
     },
     onSubmit() {
-      if (this.commentDetails === "") {
-        alert("Please comment before submit!");
-        return;
-      }
-      this.addComment(this.commentDetails);
-      this.commentDetails = "";
+      this.commentForm.id = this.GStore.user.id;
+      this.commentForm.comment = this.commentDetails;
+      doctorApi
+        .addComment(this.commentForm)
+        .then(() => {
+          this.GStore.flashMessage = "You are successfully add a comment ";
+          setTimeout(() => {
+            this.GStore.flashMessage = "";
+          }, 3000);
+        })
+        .catch(() => {
+          this.$router.push("NetworkError");
+        });
+    },
+    onSubmitVaccine() {
+      this.vaccineForm.id = this.GStore.user.id;
+      this.vaccineForm.vaccine_id = this.vaccines_id;
+      vaccineApi
+        .giveVaccine(this.vaccineForm)
+        .then(() => {
+          this.GStore.flashMessage = "You are successfully submit a vaccine ";
+          setTimeout(() => {
+            this.GStore.flashMessage = "";
+          }, 3000);
+        })
+        .catch(() => {
+          this.$router.push("NetworkError");
+        });
+    },
+    giveAdminRole() {
+      api.giveRoleAdmin(this.GStore.user.id)
+      .then(() => {
+          this.GStore.flashMessage = "You are successfully give an admin role ";
+          setTimeout(() => {
+            this.GStore.flashMessage = "";
+          }, 3000);
+        })
+        .catch(() => {
+          this.$router.push("NetworkError");
+        });
+    },
+    giveDoctorRole() {
+      api.giveRoleDoctor(this.GStore.user.id)
+      .then(() => {
+          this.GStore.flashMessage = "You are successfully give an doctor role ";
+          setTimeout(() => {
+            this.GStore.flashMessage = "";
+          }, 3000);
+        })
+        .catch(() => {
+          this.$router.push("NetworkError");
+        });
+    },
+    givePatientRole() {
+      api.giveRolePatient(this.GStore.user.id)
+      .then(() => {
+          this.GStore.flashMessage = "You are successfully give an patient role ";
+          setTimeout(() => {
+            this.GStore.flashMessage = "";
+          }, 3000);
+        })
+        .catch(() => {
+          this.$router.push("NetworkError");
+        });
     },
   },
   computed: {
@@ -175,24 +296,43 @@ export default {
         return this.GStore.user.vaccines.length + " doses";
       }
     },
-    
+    isAdmin() {
+      return AuthService.hasRoles("ROLE_ADMIN");
+    },
   },
   data() {
     return {
       seen: false,
       comments: [],
       commentDetails: "",
+      commentForm: {
+        id: 0,
+        comment: "",
+      },
+      vaccinesList: [],
+      vaccineForm: {
+        id: 0,
+        vaccine_id: 0,
+      },
     };
   },
   components: {
-    CommentList
+    CommentList,
   },
   created() {
-    if(this.GStore.user.comment != ""){
-      this.addComment(this.GStore.user.comment)
-    }
-    
-  }
+    // if (this.GStore.user.comment != "") {
+    //   this.addComment(this.GStore.user.comment);
+    // },
+
+    vaccineApi
+      .getVaccines()
+      .then((response) => {
+        this.vaccinesList = response.data;
+      })
+      .catch(() => {
+        this.$router.push("NetworkError");
+      });
+  },
 };
 </script>
 
