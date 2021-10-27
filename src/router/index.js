@@ -19,13 +19,14 @@ const routes = [
     props: (route) => ({ page: parseInt(route.query.page) || 1 })
   },
   {
-    path: '/patient',
+    path: '/user/:id',
     name: 'Layout',
+    props: true,
     component: Layout,
-    beforeEnter: () => {
-      return api.getPatient(GStore.selectedPatient)
+    beforeEnter: (to) => {
+      return api.getUser(to.params.id)
         .then((response) => {
-          GStore.patientInfo = response.data
+          GStore.user = response.data
         })
         .catch((error) => {
           if (error.response && error.response.status == 404) {
@@ -48,6 +49,7 @@ const routes = [
       {
         path: '',
         name: 'CommentList',
+        props: true,
         component: CommentList
       },
     ]

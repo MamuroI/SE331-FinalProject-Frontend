@@ -17,12 +17,16 @@ export default {
         return Promise.reject(error)
       })
   },
-  register(user) {
+  register(user,imglink) {
     return apiClient
       .post('/register', {
         username: user.username,
         password: user.password,
-        email: user.email
+        firstname: user.firstname,
+        lastname: user.lastname,
+        address: user.address,
+        age: user.age,
+        img: imglink
       })
       .then((response) => {
         localStorage.setItem('token', response.data.token)
@@ -55,5 +59,14 @@ export default {
     } else {
       return false
     }
+  },
+  uploadFile(file) {
+    let formData = new FormData()
+    formData.append('file', file)
+    return apiClient.post('/uploadFile', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
   }
 }

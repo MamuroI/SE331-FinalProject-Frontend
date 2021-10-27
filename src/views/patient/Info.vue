@@ -1,96 +1,55 @@
 <template>
   <div class="container mx-auto mt-3">
-    <div class="patientInfo mx-auto bg-red-200" v-if="GStore.patientInfo">
-      <h1 id="header">Patient Info</h1>
-      <div>
-        <img
-          v-if="GStore.patientInfo.sex === 'male'"
-          :src="require('../../assets/male.png')"
-          width="200"
-          class="mx-auto"
-        />
-        <img
-          v-if="GStore.patientInfo.sex === 'female'"
-          :src="require('../../assets/female.png')"
-          width="200"
-          class="mx-auto"
-        />
-      </div>
+    <div class="patientInfo mx-auto bg-red-200">
+      <h1 id="header">User Info</h1>
+      
+      
       <div class="infolist mt-2 grid grid-cols-5">
         <div class="col-span-2">
-          <h3 v-if="GStore.patientInfo.name" class="header">Name:</h3>
+          <h3 v-if="GStore.user.username" class="header">Username:</h3>
         </div>
         <div class="col-span-3">
-          <h3 class="subtext capitalize">{{ GStore.patientInfo.name }}</h3>
+          <h3 class="subtext capitalize">{{ GStore.user.username }}</h3>
         </div>
         <div class="col-span-2">
-          <h3 v-if="GStore.patientInfo.surname" class="header">Surname:</h3>
+          <h3 v-if="GStore.user.firstname" class="header">Firstname:</h3>
         </div>
         <div class="col-span-3">
-          <h3 class="subtext capitalize">{{ GStore.patientInfo.surname }}</h3>
+          <h3 class="subtext capitalize">{{ GStore.user.firstname }}</h3>
         </div>
         <div class="col-span-2">
-          <h3 v-if="GStore.patientInfo.age" class="header">Age:</h3>
+          <h3 v-if="GStore.user.lastname" class="header">Lastname:</h3>
+        </div>
+        <div class="col-span-3">
+          <h3 class="subtext capitalize">{{ GStore.user.lastname }}</h3>
+        </div>
+        <div class="col-span-2">
+          <h3 v-if="GStore.user.age" class="header">Age:</h3>
         </div>
         <div class="col-span-3">
           <h3 class="subtext capitalize">
-            {{ GStore.patientInfo.age }} years old
+            {{ GStore.user.age }} years old
           </h3>
         </div>
-
         <div class="col-span-2">
-          <h3 v-if="GStore.patientInfo.sex" class="header">Sex:</h3>
-        </div>
-        <div class="col-span-3">
-          <h3 class="subtext capitalize">{{ GStore.patientInfo.sex }}</h3>
-        </div>
-
-        <div class="col-span-2">
-          <h3 v-if="GStore.patientInfo.address.district" class="header">
-            District:
+          <h3 v-if="GStore.user.address" class="header">
+            Address:
           </h3>
         </div>
         <div class="col-span-3">
           <h3 class="subtext capitalize">
-            {{ GStore.patientInfo.address.district }}
+            {{ GStore.user.address }}
           </h3>
         </div>
 
         <div class="col-span-2">
-          <h3 v-if="GStore.patientInfo.address.city" class="header">City:</h3>
-        </div>
-        <div class="col-span-3">
-          <h3 class="subtext capitalize">
-            {{ GStore.patientInfo.address.city }}
-          </h3>
-        </div>
-
-        <div class="col-span-2">
-          <h3 v-if="GStore.patientInfo.address.state" class="header">State:</h3>
-        </div>
-        <div class="col-span-3">
-          <h3 class="subtext capitalize">
-            {{ GStore.patientInfo.address.state }}
-          </h3>
-        </div>
-
-        <div class="col-span-2">
-          <h3 v-if="GStore.patientInfo.address.country" class="header">
-            Country:
+          <h3 v-if="GStore.user.authorities.length>0" class="header">
+            Role:
           </h3>
         </div>
         <div class="col-span-3">
           <h3 class="subtext capitalize">
-            {{ GStore.patientInfo.address.country }}
-          </h3>
-        </div>
-
-        <div class="col-span-2">
-          <h3 v-if="GStore.patientInfo.address.more" class="header">More:</h3>
-        </div>
-        <div class="col-span-3">
-          <h3 class="subtext capitalize">
-            {{ GStore.patientInfo.address.more }}
+            {{ GStore.user.authorities[0].name }}
           </h3>
         </div>
 
@@ -103,7 +62,7 @@
       </div>
       <button
         @click="seen = !seen"
-        v-if="GStore.patientInfo.vaccines.length"
+        v-if="GStore.user.vaccines.length>0"
         class="
           px-5
           py-2
@@ -118,28 +77,24 @@
       >
         <p class="text-md text-yellow-500 hover:text-white">Vaccine Details</p>
       </button>
-      <div v-if="GStore.patientInfo.vaccines.length" v-show="seen">
-        <table>
-          <tr class="grid grid-cols-5 justify-between">
-            <th class="col-span-1">No:</th>
-            <th class="col-span-2">Vaccine Brand</th>
-            <th class="col-span-1">Date</th>
-            <th class="col-span-1">Time(24hrs)</th>
+      <div v-if="GStore.user.vaccines.length>0" v-show="seen">
+        <table class="justify-center">
+          <tr class="">
+            <th class="col-span-2 ">No:</th>
+            <th class="col-span-8 justify-center">Vaccine Brand</th>
           </tr>
           <tr
-            :key="item.vaccine"
-            v-for="(item, index) in GStore.patientInfo.vaccines"
-            class="grid grid-cols-5 justify-between"
+            :key="item.name"
+            v-for="(item, index) in GStore.user.vaccines"
+            class=""
           >
-            <td class="col-span-1">{{ index + 1 }}</td>
-            <td class="col-span-2">{{ item.vaccine }}</td>
-            <td class="col-span-1">{{ item.date }}</td>
-            <td class="col-span-1">{{ item.time }}</td>
+            <td class="col-span-2">{{ index + 1 }}</td>
+            <td class="col-span-8">{{ item.name }}</td>
           </tr>
         </table>
       </div>
 
-      <CommentList v-if="comments.length" :comments="comments"></CommentList>
+      <CommentList v-if="comments.length>0" :comments="comments"></CommentList>
 
       <form class="comment-form grid" @submit.prevent="onSubmit">
         <div class="text-lg mt-8">
@@ -193,7 +148,7 @@
 <script>
 import CommentList from "./CommentList.vue";
 export default {
-  inject: ["GStore"],
+  inject:['GStore'],
   methods: {
     goBack() {
       this.$router.push({ name: "Home" });
@@ -212,14 +167,15 @@ export default {
   },
   computed: {
     vaccinateStatus() {
-      if (this.GStore.patientInfo.status == 0) {
+      if (this.GStore.user.vaccines.length == 0) {
         return "Non-Vaccinated";
-      } else if (this.GStore.patientInfo.status == 1) {
-        return this.GStore.patientInfo.status + " dose";
+      } else if (this.GStore.user.vaccines.length == 1) {
+        return this.GStore.user.vaccines.length + " dose";
       } else {
-        return this.GStore.patientInfo.status + " doses";
+        return this.GStore.user.vaccines.length + " doses";
       }
     },
+    
   },
   data() {
     return {
@@ -232,9 +188,10 @@ export default {
     CommentList
   },
   created() {
-    if(this.GStore.patientInfo.comment != ""){
-      this.addComment(this.GStore.patientInfo.comment)
+    if(this.GStore.user.comment != ""){
+      this.addComment(this.GStore.user.comment)
     }
+    
   }
 };
 </script>

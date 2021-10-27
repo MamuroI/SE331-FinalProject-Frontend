@@ -1,31 +1,19 @@
 <template>
   <div class="w-full shadow-lg bg-red-100 px-5 py-5 m-1 rounded root">
     <div class="grid grid-cols-1 md:grid-cols-3">
-      <div class="grid md:col-span-1 justify-center items-center">
-        <img
-          v-if="patient.sex === 'male'"
-          :src="require('../assets/male.png')"
-          width="150"
-        />
-        <img
-          v-if="patient.sex === 'female'"
-          :src="require('../assets/female.png')"
-          width="150"
-        />
-      </div>
       <div class="grid md:col-span-2 md:pl-4 mt-2 md:mt-0">
         <div class="grid">
           <h2 class="grid justify-start patientdetails">
-            Name: {{ patient.name }} {{ patient.surname }}
+            Username: {{ chooseToShow() }}
           </h2>
-          <h2 class="grid justify-start patientdetails">
-            Status: {{ vaccinateStatus }}
+          <h2 v-if="user.authorities != null" class="grid justify-start patientdetails">
+            Role: {{ user.authorities[0].name }}
           </h2>
         </div>
         <div class="grid items-end">
+          <router-link :to="{name: 'Info',params: {id: user.id}}">
           <button
             id="Moredetails"
-            @click="goToInfo"
             class="
           py-2
           rounded
@@ -41,6 +29,7 @@
           >
             More Details
           </button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -51,7 +40,7 @@
 export default {
   inject: ["GStore"],
   props: {
-    patient: {
+    user: {
       type: Object,
       required: true,
     },
@@ -80,6 +69,13 @@ export default {
       this.GStore.selectedPatient = this.patient.id;
       this.$router.push({ name: "Comment" });
     },
+    chooseToShow(){
+      if(this.GStore.currentUser.authorities[0].name == "ROLE_DOCTOR"){
+        return this.user.user.username
+      }else {
+        return this.user.username
+      }
+    }
   },
 };
 </script>

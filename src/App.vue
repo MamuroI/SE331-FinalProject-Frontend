@@ -10,25 +10,25 @@
       <ul v-if="!GStore.currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
           <router-link to="/register" class="nav-link">
-            <font-awesome-icon icon="user-plus" /> Sign Up
+             Sign Up
           </router-link>
         </li>
         <li class="nav-item">
           <router-link to="/login" class="nav-link">
-            <font-awesome-icon icon="sign-in-alt" /> Login
+             Login
           </router-link>
         </li>
       </ul>
       <ul v-if="GStore.currentUser" class="navbar-nav ml-auto">
         <li class="nav-item">
           <router-link to="/profile" class="nav-link">
-            <font-awesome-icon icon="user" />
-            {{ GStore.currentUser.name }}
+            
+            {{ GStore.currentUser.username }}
           </router-link>
         </li>
         <li class="nav-item">
           <a class="nav-link" @click="logout">
-            <font-awesome-icon icon="sign-out-alt" /> LogOut
+             LogOut
           </a>
         </li>
       </ul>
@@ -73,7 +73,7 @@ body {
   width: 100%;
   margin: 0;
   overflow-x: hidden;
-  background-color: white;
+  background-color: red;
 }
 
 @keyframes yellowfade {
