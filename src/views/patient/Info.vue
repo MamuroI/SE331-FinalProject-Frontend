@@ -86,8 +86,8 @@
           </tr>
         </table>
       </div>
-
-      <div class="addVaccineBg" :v-if="GStore.user.authorities[0].name == 'ROLE_ADMIN'">
+      {{ GStore.currentUser }}
+      <div v-if="GStore.currentUser.authorities[0].name === 'ROLE_ADMIN'" class="addVaccineBg" >
 
       
       <h4 class="vaccineHeader">Add vaccine</h4>
@@ -106,7 +106,7 @@
         :comments="comments"
       ></CommentList>
 
-      <form class="comment-form grid" @submit.prevent="onSubmit">
+      <form v-if="GStore.currentUser.authorities[0].name === 'ROLE_DOCTOR'" class="comment-form grid" @submit.prevent="onSubmit">
         <div class="text-lg mt-8">
           <h1 class="commentHeader mb-2">Add Comment</h1>
         </div>
@@ -132,7 +132,7 @@
         </div>
       </form>
 
-      <div class="grid grid-cols-3 pt-4" :v-if="GStore.user.authorities[0].name == 'ROLE_ADMIN'">
+      <div v-if="GStore.currentUser.authorities[0].name === 'ROLE_ADMIN'" class="grid grid-cols-3 pt-4" :v-if="GStore.user.authorities[0].name == 'ROLE_ADMIN'">
         <div>
           <button
             v-on:click="giveAdminRole"
